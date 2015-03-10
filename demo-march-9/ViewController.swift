@@ -34,23 +34,39 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+        return "Movies"
+        } else {
+            return "Trending"
+        }
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count + 1
+        if section == 0 {
+            return movies.count
+        } else {
+            return 4
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            var cell = tableView.dequeueReusableCellWithIdentifier("trendingCellId") as TrendingCell
+        if indexPath.section == 0 {
+            var cell = tableView.dequeueReusableCellWithIdentifier("movieCellId") as MovieCell
+            
+            cell.movieTitle.text = movies[indexPath.row]
+            cell.movieDescription.text = "Action thriller abroad"
             
             return cell
+            
+        } else {
+            var cell = tableView.dequeueReusableCellWithIdentifier("trendingCellId") as TrendingCell
+            return cell
         }
-        
-        var cell = tableView.dequeueReusableCellWithIdentifier("movieCellId") as MovieCell
-        
-        cell.movieTitle.text = movies[indexPath.row - 1]
-        cell.movieDescription.text = "Action thriller abroad"
-        
-        return cell
     }
     
 
